@@ -4,18 +4,29 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     controllers = require('./controllers');
 
-
+// var mongoose = require('mongoose');
+// var User = require('./models/user');
+// var session = require('express-session');
+// var Video = require('./models/video');
+// var db = require('./models');
 
 // MIDDLEWARE
 
 // serve static files from public folder
 app.use(express.static(__dirname + '/public'));
-
+// app.use(session({
+//  saveUninitialized: true,
+//  resave: true,
+//  secret: 'SuperSecretCookie',
+//  cookie: { maxAge: 30 * 60 * 1000 } // 30 minute cookie lifespan (in milliseconds)
+// }));
 // parse incoming urlencoded form data
 // and populate the req.body object
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+// mongoose.connect('mongodb://localhost/movelog');
+// app.set('view engine', 'ejs');
 
 // allow cross origin requests (optional)
 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS
@@ -24,105 +35,6 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
-
-//renders signup and signin pages
-// app.set('view engine', 'ejs');
-
-
-/************
- * DATABASE *
- ************/
-
-var db = require('./models');
-var User = require('./models/user');
-var Video = require('./models/video');
-/**********
- * ROUTES *
- **********/
-
-//
-//  ///////////////////////
-// /////Users Route//////
-// ///////////////////////
-//
-//
-//  app.get('/', function homepage(req, res) {
-//    res.sendFile(__dirname + '/views/index.html');
-//  });
-//
-//  // Get all users
-// app.get('/users', function (req, res) {
-//   db.User.find(function(err, users) {
-//     if (err) {
-//       return console.log('Get all users' + err);
-//     }
-//     console.log('Get all users succ' + users);
-//     res.json(users);
-//   });
-// });
-//
-// //Get a single user
-// app.get('/users/:id', function(req, res) {
-//   db.User.findOne({_id: req.params.id}, function(err, user) {
-//     res.json(user);
-//   });
-// });
-//
-// // Create a new user
-// app.post('/users', function(req, res) {
-//   var user = new db.User(req.body);
-//   user.save(function(err, newUser) {
-//     res.json(newUser);
-//   });
-// });
-//
-// //Update a single user
-// app.put('/users/:id', function(req, res) {
-//   db.User.findOne({_id: req.params.id}, function(err, user) {
-//     user.email = req.body.email;
-//     user.imageUrl = req.body.imageUrl;
-//   });
-//   user.save(function(err, newUser) {
-//   res.json(newUser);
-//   });
-// });
-//
-// // Delete a single user
-// app.delete('/users/:id', function(req, res) {
-//   db.User.findOneAndRemove({_id: req.params.id}, function(err, user) {
-//     res.json(user);
-//   });
-// });
-//
-// ///////////////////////
-// /////Videos Route//////
-// ///////////////////////
-//
-// // Get all videos
-// app.get('/videos', function(req, res) {
-//   db.Video.find(function(err, videos) {
-//     if (err) {
-//       return console.log('Get all videos error: ' + err);
-//     }
-//     res.json(videos);
-//   });
-// });
-//
-//
-// //Get a single video
-// app.get('/videos/:id', function(req, res) {
-//   db.Video.findOne({_id: req.params.id}, function(err, video) {
-//     res.json(video);
-//   });
-// });
-//
-// // create a new video
-// app.post('/videos', function(req, res) {
-//   var video = new db.Video(req.body);
-//   video.save(function(err, newVideo) {
-//     res.json(newVideo);
-//   });
-// });
 
 
 /**********
@@ -142,6 +54,54 @@ app.get('/templates/:name', function templates(req, res) {
   res.sendFile(__dirname + '/views/templates/' + name + '.html');
 });
 
+// // get signup route
+// app.get('/signup', function (req, res) {
+//  res.render('signup');
+// });
+//
+// // post sign up route
+// app.post('/users', function (req, res) {
+//  console.log(req.body)
+//  // use the email and password to authenticate here
+//  User.createSecure(req.body.email, req.body.password, function (err, newUser) {
+//    req.session.userId = newUser._id;
+//    res.redirect('/profile');
+//  });
+// });
+//
+// // get login route
+// app.get('/login', function (req, res) {
+//  res.render('login');
+// });
+//
+// // authenticate and log in user
+// app.post('/sessions', function (req, res) {
+//  // use the email and password to authenticate here
+//  User.authenticate(req.body.email, req.body.password, function (err, loggedInUser) {
+//    if (err){
+//      console.log('authentication error: ', err);
+//      res.status(500).send();
+//    } else {
+//      req.session.userId = loggedInUser._id;
+//      res.redirect('/profile');
+//    }
+//  });
+// });
+//
+// app.get('/profile', function (req, res) {
+// // find user currently logged in
+// User.findOne({_id: req.session.userId}, function (err, currentUser) {
+//  res.render('profile.ejs', {user: currentUser})
+//  });
+// });
+//
+// // get logout route
+// app.get('/logout', function (req, res) {
+// // remove the session user id
+// req.session.userId = null;
+// // redirect to login
+// res.redirect('/login');
+// });
 
 
 /*

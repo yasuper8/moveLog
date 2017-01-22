@@ -1,45 +1,45 @@
 angular
-  .module('tunely')
+  .module('movelog')
   .controller('UsersIndexController', UsersIndexController);
 
 
-  UsersIndexController.$inject = ['$http'];
+  UsersIndexController.$inject = ['$http', '$routeParams', '$location'];
 
 
-  function AlbumsIndexController ($http) {
+  function UsersIndexController ($http) {
     var vm = this;
-    vm.newAlbum = {};
-    vm.newAlbum = {
-      name: 'Viva Hate',
-      artistName: 'Morrissey'
-    };
+    vm.newUser = {};
+    // vm.newUser = {
+    //   name: 'Viva Hate',
+    //   artistName: 'Morrissey'
+    // };
 
     $http({
       method: 'GET',
-      url: '/api/albums'
+      url: '/api/users'
     }).then(function successCallback(response) {
-      vm.albums = response.data;
+      vm.users = response.data;
     }, function errorCallback(response) {
-      console.log('There was an error getting the data', response);
+      console.log('There was an error getting the users data', response);
     });
 
-    vm.createAlbum = function () {
+    vm.createUser = function () {
       $http({
         method: 'POST',
-        url: '/api/albums',
-        data: vm.newAlbum,
+        url: '/api/users',
+        data: vm.newUser,
       }).then(function successCallback(response) {
-        vm.albums.push(response.data);
+        vm.users.push(response.data);
       }, function errorCallback(response) {
-        console.log('There was an error posting the data', response);
+        console.log('There was an error posting the user data', response);
       });
     }
 
-    vm.editAlbum = function (album) {
+    vm.editUser = function (user) {
       $http({
         method: 'PUT',
-        url: '/api/albums/'+album._id,
-        data: album
+        url: '/api/users/'+user._id,
+        data: user
       }).then(function successCallback(json) {
         // don't need to do anything!
       }, function errorCallback(response) {
@@ -47,15 +47,15 @@ angular
       });
     }
 
-    vm.deleteAlbum = function (album) {
+    vm.deleteUser = function (user) {
       $http({
         method: 'DELETE',
-        url: '/api/albums/'+ album._id
+        url: '/api/users/'+ user._id
       }).then(function successCallback(json) {
-        var index = vm.albums.indexOf(album);
-        vm.albums.splice(index,1)
+        var index = vm.users.indexOf(user);
+        vm.users.splice(index,1)
       }, function errorCallback(response) {
-        console.log('There was an error deleting the data', response);
+        console.log('There was an error deleting the user data', response);
       });
     }
 

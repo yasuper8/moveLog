@@ -2,10 +2,12 @@ var db = require('./models');
 
 var user_lists = [
   {
+    userName: "Yasu",
     email: "yasu@mail.com",
     profileUrl: "http://i.imgur.com/Rwv0BRw.jpg"
   },
   {
+    userName: "Linda",
     email: "linda@mail.com",
     profileUrl: "http://i.imgur.com/h9b3eZe.jpg"
   }

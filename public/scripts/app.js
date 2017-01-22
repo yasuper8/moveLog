@@ -20,7 +20,7 @@ function config ($routeProvider, $locationProvider) {
       controller: 'UsersIndexController'
     })
     .when('/users/:id', {
-      templateUrl: '/templates/users-show',
+      templateUrl: '/templates/user-show',
       controllerAs: 'usersShowCtrl',
       controller: 'UsersShowController'
     })
